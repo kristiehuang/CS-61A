@@ -11,9 +11,12 @@ def a_plus_abs_b(a, b):
     5
     """
     if b < 0:
-        f = _____
+        def absAdd(a, b):
+            return a + (b * -1)
+        f = absAdd
+
     else:
-        f = _____
+        f = add
     return f(a, b)
 
 def two_of_three(a, b, c):
@@ -29,7 +32,7 @@ def two_of_three(a, b, c):
     >>> two_of_three(5, 5, 5)
     50
     """
-    return _____
+    return a*a + b*b + c*c - min(a, b, c)*min(a,b,c)
 
 def largest_factor(n):
     """Return the largest factor of n that is smaller than n.
@@ -41,7 +44,17 @@ def largest_factor(n):
     >>> largest_factor(13) # factor is 1 since 13 is prime
     1
     """
-    "*** YOUR CODE HERE ***"
+    largest = 1
+    num = n - 1
+    while num >= 1:
+        if n % num == 0:
+            largest = num
+            break
+        else:
+            num = num - 1
+
+
+    return largest
 
 def if_function(condition, true_result, false_result):
     """Return true_result if condition is a true value, and

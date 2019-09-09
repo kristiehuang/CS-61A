@@ -24,17 +24,20 @@ def roll_dice(num_rolls, dice=six_sided):
     "*** YOUR CODE HERE ***"
     sum = 0
     n = num_rolls
+    one = False
     while n > 0:
         roll = dice()
+        #print("roll is", roll)
         sum += roll
         n -= 1
-        print(sum)
         if roll == 1:
-            sum = 1
-            break
-    print(sum)
-    return sum
+            one = True
+    if one:
+        return 1
+    else:
+        return sum
     # END PROBLEM 1
+
 
 
 def free_bacon(score):
@@ -45,6 +48,10 @@ def free_bacon(score):
     assert score < 100, 'The game should be over.'
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+    tens = score // 10
+    ones = score % 10
+    minimum = min(tens, ones)
+    return 10 - minimum
     # END PROBLEM 2
 
 
@@ -63,6 +70,10 @@ def take_turn(num_rolls, opponent_score, dice=six_sided):
     assert opponent_score < 100, 'The game should be over.'
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    if num_rolls == 0:
+        return free_bacon(opponent_score)
+    else:
+        return roll_dice(num_rolls, dice)
     # END PROBLEM 3
 
 
@@ -72,6 +83,19 @@ def is_swap(player_score, opponent_score):
     """
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+    def multipleLeftRight(score):
+        if (score // 10 == 0): #if single digit
+            return score * score
+        left = score
+        right = score % 10
+        while left >= 10:
+            left = left // 10
+        return left * right
+
+    player_multiple = multipleLeftRight(player_score)
+    opponent_multiple = multipleLeftRight(opponent_score)
+    #print(player_multiple, opponent_multiple)
+    return player_multiple == opponent_multiple
     # END PROBLEM 4
 
 

@@ -71,9 +71,12 @@ def take_turn(num_rolls, opponent_score, dice=six_sided):
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
     if num_rolls == 0:
+        #print("free")
         return free_bacon(opponent_score)
     else:
+        #print("roll")
         return roll_dice(num_rolls, dice)
+
     # END PROBLEM 3
 
 
@@ -143,43 +146,52 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
 
 
         if player == 0:
-            numRolls = strategy0
+            #numRolls = strategy0
             otherScore = score1
-            numNewRolls = numRolls(score0, otherScore)
+            numNewRolls = strategy0(score0, otherScore)
 
-            if lastRoll0 - numNewRolls != 2 and lastRoll0 - numNewRolls != -2:
-                feral_hogs = False
-                #print("feral hogs false")
 
-            lastRoll0 = numNewRolls
+
+            # if lastRoll0 - numNewRolls != 2 and lastRoll0 - numNewRolls != -2:
+            #     feral_hogs = False
+            #     #print("feral hogs false")
+
 
             score0 += take_turn(numNewRolls, otherScore, dice)
-            if feral_hogs:
-                score0 +=3
-                print("feral hogs 0")
+            #print("add score", score0)
+
+            if lastRoll0 == numNewRolls + 2 or lastRoll0 == numNewRolls - 2:
+                score0 += 3
+                #print("add 3 score")
 
 
             if is_swap(score0, otherScore):
                 score0, score1 = score1, score0
 
+            lastRoll0 = numNewRolls
 
         else: #set strategy and score based on player
-            numRolls = strategy1
+            #numRolls = strategy1
             otherScore = score0
-            numNewRolls = numRolls(score1, otherScore)
+            numNewRolls = strategy1(score1, otherScore)
 
 
-            if lastRoll1 - numNewRolls != 2 and lastRoll1 - numNewRolls != -2:
-                feral_hogs = False
-            lastRoll1 = numNewRolls
+
+            # if lastRoll1 - numNewRolls != 2 and lastRoll1 - numNewRolls != -2:
+            #     feral_hogs = False
 
             score1 += take_turn(numNewRolls, otherScore, dice)
-            if feral_hogs:
-                score1 +=3
-                print("feral hogs 1")
+            #print("add score", score1)
+
+            if lastRoll1 == numNewRolls + 2 or lastRoll1 == numNewRolls - 2:
+                score1 += 3
+                #print("add 3 score")
+
+                #print("feral hogs 1")
 
             if is_swap(score1, otherScore):
                 score0, score1 = score1, score0
+            lastRoll1 = numNewRolls
 
         #switch players after turn
         player = other(player)

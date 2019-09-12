@@ -143,65 +143,38 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     lastRoll1 = 0
     while score0 < goal and score1 < goal:
 
-
-
         if player == 0:
-            #numRolls = strategy0
             otherScore = score1
             numNewRolls = strategy0(score0, otherScore)
 
-
-
-            # if lastRoll0 - numNewRolls != 2 and lastRoll0 - numNewRolls != -2:
-            #     feral_hogs = False
-            #     #print("feral hogs false")
-
-
             score0 += take_turn(numNewRolls, otherScore, dice)
             #print("add score", score0)
-
             if lastRoll0 == numNewRolls + 2 or lastRoll0 == numNewRolls - 2:
                 score0 += 3
-                #print("add 3 score")
-
-
             if is_swap(score0, otherScore):
                 score0, score1 = score1, score0
 
             lastRoll0 = numNewRolls
 
         else: #set strategy and score based on player
-            #numRolls = strategy1
             otherScore = score0
             numNewRolls = strategy1(score1, otherScore)
 
-
-
-            # if lastRoll1 - numNewRolls != 2 and lastRoll1 - numNewRolls != -2:
-            #     feral_hogs = False
-
             score1 += take_turn(numNewRolls, otherScore, dice)
-            #print("add score", score1)
-
             if lastRoll1 == numNewRolls + 2 or lastRoll1 == numNewRolls - 2:
                 score1 += 3
-                #print("add 3 score")
-
-                #print("feral hogs 1")
-
             if is_swap(score1, otherScore):
                 score0, score1 = score1, score0
             lastRoll1 = numNewRolls
 
         #switch players after turn
         player = other(player)
-
     # END PROBLEM 5
     # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
     # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
-    #s0 = 1(rolled 3) + 1(rolled 5)+3 + 1(rolled 7)+3
-    #s1 = 1(rolld 4) + 1(rolled 2)+3 + 10(rolled 0)+3
+        "*** YOUR CODE HERE ***" #within while loop still
+        say = say(score0, score1)
+
 
     # END PROBLEM 6
     return score0, score1

@@ -34,6 +34,11 @@ def product(n, term):
     162
     """
     "*** YOUR CODE HERE ***"
+    i, product = 1, 1
+    while i <= n:
+        product *= term(i)
+        i +=1
+    return product
 
 def accumulate(combiner, base, n, term):
     """Return the result of combining the first n terms in a sequence and base.
@@ -54,6 +59,11 @@ def accumulate(combiner, base, n, term):
     19
     """
     "*** YOUR CODE HERE ***"
+    i, acc = 1, base
+    while i <= n:
+        acc = combiner(acc, term(i))
+        i +=1
+    return acc
 
 def summation_using_accumulate(n, term):
     """Returns the sum of term(1) + ... + term(n). The implementation
@@ -70,6 +80,7 @@ def summation_using_accumulate(n, term):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(add, 0, n, term)
 
 def product_using_accumulate(n, term):
     """An implementation of product using accumulate.
@@ -85,6 +96,8 @@ def product_using_accumulate(n, term):
     True
     """
     "*** YOUR CODE HERE ***"
+    return accumulate(mul, 1, n, term)
+
 
 def compose1(f, g):
     """Return a function h, such that h(x) = f(g(x))."""
@@ -104,10 +117,23 @@ def make_repeater(f, n):
     625
     >>> make_repeater(square, 4)(5) # square(square(square(square(5))))
     152587890625
-    >>> make_repeater(square, 0)(5) # Yes, it makes sense to apply the function zero times! 
+    >>> make_repeater(square, 0)(5) # Yes, it makes sense to apply the function zero times!
     5
     """
     "*** YOUR CODE HERE ***"
+
+
+    def composedFunc(x):
+        if n == 0:
+            return x
+        i = 1
+        newFunc = f(x)
+        while i < n:
+            newFunc = f(newFunc)
+            i +=1
+        return newFunc
+
+    return composedFunc
 
 
 ##########################

@@ -341,7 +341,6 @@ def make_averaged(fn, num_samples=1000):
         while i < num_samples:
             sum += fn(*args)
             i += 1
-            print(sum)
 
         return sum / num_samples
 
@@ -360,6 +359,17 @@ def max_scoring_num_rolls(dice=six_sided, num_samples=1000):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    i = 1
+    maxScore = 0
+    numDice = 1
+    while i <= 10:
+        score = make_averaged(roll_dice, num_samples)(i, dice)
+        if score > maxScore:
+            numDice = i
+            maxScore = score
+        i += 1
+
+    return numDice
     # END PROBLEM 9
 
 
@@ -408,7 +418,10 @@ def bacon_strategy(score, opponent_score, margin=8, num_rolls=4):
     rolls NUM_ROLLS otherwise.
     """
     # BEGIN PROBLEM 10
-    return 4  # Replace this statement
+    if free_bacon(opponent_score) >= margin:
+        return 0
+    else:
+        return num_rolls
     # END PROBLEM 10
 
 

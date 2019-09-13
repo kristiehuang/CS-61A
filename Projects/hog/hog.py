@@ -283,14 +283,14 @@ def announce_highest(who, previous_high=0, previous_score=0):
         if newHigh > previous_high:
             print(newHigh, "point(s)! That's the biggest gain yet for Player", who)
             oldHigh = newHigh
-        return oldHigh, score
+        return oldHigh
 
     def say(score0, score1):
         score = score0
         if who == 1:
             score = score1
 
-        oldHigh, score = checkForHigh(score)
+        oldHigh = checkForHigh(score)
         return announce_highest(who, oldHigh, score)
 
     return say
@@ -335,6 +335,17 @@ def make_averaged(fn, num_samples=1000):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    def func(*args):
+        i = 0
+        sum = 0
+        while i < num_samples:
+            sum += fn(*args)
+            i += 1
+            print(sum)
+
+        return sum / num_samples
+
+    return func
     # END PROBLEM 8
 
 

@@ -60,6 +60,15 @@ def gcd(a, b):
     40
     """
     "*** YOUR CODE HERE ***"
+    if a > b and not(a % b == 0):
+        return gcd(b, a%b)
+    elif b > a:
+        return gcd(b, a)
+    elif a % b == 0:
+        return b
+    else:
+        return 1
+
 
 def couple(s1, s2):
     """Return a list that contains lists with i-th elements of two sequences

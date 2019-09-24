@@ -84,6 +84,13 @@ def couple(s1, s2):
     """
     assert len(s1) == len(s2)
     "*** YOUR CODE HERE ***"
+    final = []
+    for n in range(len(s1)):
+        n1 = s1[n]
+        n2 = s2[n]
+        list = [n1, n2]
+        final.append(list)
+    return final
 
 def enumerate(s, start=0):
     """Returns a list of lists, where the i-th list contains i+start and
@@ -94,6 +101,12 @@ def enumerate(s, start=0):
     [[5, 'f'], [6, 'i'], [7, 'v'], [8, 'e']]
     """
     "*** YOUR CODE HERE ***"
+    indexes = []
+    for n in range(len(s)):
+        indexes.append(start)
+        start += 1
+    return couple(indexes, s)
+
 
 # Optional problems
 

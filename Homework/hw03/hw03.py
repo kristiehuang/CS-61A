@@ -66,22 +66,21 @@ def pingpong(n):
     True
     """
     "*** YOUR CODE HERE ***"
-    def k_contains_seven(x):
-        if x % 10 == 7:
-            return True
-        elif x > 1:
-            return k_contains_seven(x//10)
-        else:
-            return False
+    # def k_contains_seven(x):
+    #     if x % 10 == 7:
+    #         return True
+    #     elif x > 1:
+    #         return k_contains_seven(x//10)
+    #     else:
+    #         return False
 
     elem = 0
     increment = 1
     index = 1
     while index <= n:
-        if index % 7 == 0 or k_contains_seven(index): #mult of 7 or contains 7
-            increment *= (-1)
         elem += increment
-        print(elem, increment)
+        if index % 7 == 0 or num_sevens(index) > 0: #mult of 7 or contains 7
+            increment *= (-1)
         index+= 1
     return elem
 

@@ -67,6 +67,7 @@ def pingpong(n):
     """
     "*** YOUR CODE HERE ***"
 
+    # iteratively!!!
     # elem = 0
     # increment = 1
     # index = 1
@@ -76,7 +77,6 @@ def pingpong(n):
     #         increment *= (-1)
     #     index+= 1
     # return elem
-
 
     def pingpong_help(increment, index):
         if index > n:
@@ -106,6 +106,39 @@ def count_change(amount):
     True
     """
     "*** YOUR CODE HERE ***"
+
+    def closestPowerOfTwo(factor, n):
+        if factor > n:
+            return 1/2
+        elif factor == n:
+            return 1
+        else:
+            return 2 * closestPowerOfTwo(2*factor, n)
+
+    def count_help(n,m):
+        if n == 1:
+            return 1
+        elif m == 1:
+            return 1
+        elif n < 0:
+            return 0
+        else:
+            return count_help(n-m, m) + count_help(n, m/2)
+
+    return count_help(amount,closestPowerOfTwo(1, amount))
+
+
+def closestPowerOfTwo(factor, n):
+    if factor > n:
+        return 1/2
+    elif factor == n:
+        return 1
+    else:
+        return 2 * closestPowerOfTwo(2*factor, n)
+
+
+
+
 
 
 def flatten(lst):

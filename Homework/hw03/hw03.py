@@ -66,16 +66,26 @@ def pingpong(n):
     True
     """
     "*** YOUR CODE HERE ***"
-    while k % 7 == 0 or k_contains_seven(k):
-        return 0
-
     def k_contains_seven(x):
-        if x % 10 == 0:
+        if x % 7 == 0:
             return True
-        elif x > 0:
+        elif x > 1:
             return k_contains_seven(x//10)
         else:
             return False
+
+    elem = 1
+    increment = 1
+    index = 1
+    while index <= n:
+        elem += increment
+        if index % 7 == 0 or k_contains_seven(index):
+            increment *= (-1)
+        print(elem)
+        index+= 1
+    return elem
+
+
 
 def count_change(amount):
     """Return the number of ways to make change for amount.

@@ -50,6 +50,13 @@ def about(topic):
     assert all([lower(x) == x for x in topic]), 'topics should be lowercase.'
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
+    def check_contains(string):
+        for word in topic:
+            for word2 in split(remove_punctuation(string)):
+                if lower(word) == lower(word2):
+                    return True
+        return False
+    return check_contains
     # END PROBLEM 2
 
 

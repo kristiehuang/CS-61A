@@ -158,6 +158,11 @@ def flatten(lst):
     [[1, [1, 1]], 1, [1, 1]]
     """
     "*** YOUR CODE HERE ***"
+    list = []
+    new = [flatten(x) for x in list if type(x) == list]
+    list.append(new)
+
+    return list
 
 ###################
 # Extra Questions #

@@ -140,6 +140,19 @@ def acorn_finder(t):
     """
     "*** YOUR CODE HERE ***"
 
+    if 'acorn' == label(t):
+        return True
+    else:
+        if is_leaf(t):
+            return False
+        elif is_tree(t):
+            bool = False
+            for branch in branches(t):
+                bool = bool or acorn_finder(branch)
+            return bool
+        else:
+            return False
+
 def sprout_leaves(t, vals):
     """Sprout new leaves containing the data in vals at each leaf in
     the original tree t and return the resulting tree.

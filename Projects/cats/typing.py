@@ -147,25 +147,23 @@ def swap_diff(start, goal, limit):
 
 def edit_diff(start, goal, limit):
     """A diff function that computes the edit distance from START to GOAL."""
-    assert False, 'Remove this line'
+    #assert False, 'Remove this line'
 
-    if ______________: # Fill in the condition
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-
-    elif ___________: # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
-
+    if start == goal:
+        return 0
+    elif limit < 0:
+        return 0
+    elif len(start) == 0 or len(goal) == 0: #to add digits or subtract digits
+        return abs(len(goal) - len(start))
+    elif start[0] == goal[0]:
+        return edit_diff(start[1:], goal[1:], limit)
     else:
-        add_diff = ...  # Fill in these lines
-        remove_diff = ...
-        substitute_diff = ...
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+        add_diff = 1 + edit_diff(goal[0] + start, goal, limit-1)
+        remove_diff = 1 + edit_diff(start[1:], goal, limit-1)
+        substitute_diff = 1 + edit_diff(goal[0] + start[1:], goal, limit-1)
+        return min(add_diff, remove_diff, substitute_diff)
+
+    # END
 
 
 def final_diff(start, goal, limit):

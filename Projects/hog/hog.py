@@ -22,20 +22,19 @@ def roll_dice(num_rolls, dice=six_sided):
     assert num_rolls > 0, 'Must roll at least once.'
     # BEGIN PROBLEM 1
     "*** YOUR CODE HERE ***"
-    sum = 0
+    total = 0
     n = num_rolls
     one = False
     while n > 0:
         roll = dice()
-        #print("roll is", roll)
-        sum += roll
+        total += roll
         n -= 1
         if roll == 1:
             one = True
     if one:
         return 1
     else:
-        return sum
+        return total
     # END PROBLEM 1
 
 
@@ -71,10 +70,8 @@ def take_turn(num_rolls, opponent_score, dice=six_sided):
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
     if num_rolls == 0:
-        #print("free")
         return free_bacon(opponent_score)
     else:
-        #print("roll")
         return roll_dice(num_rolls, dice)
 
     # END PROBLEM 3
@@ -86,8 +83,8 @@ def is_swap(player_score, opponent_score):
     """
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
-    def multipleLeftRight(score):
-        if (score // 10 == 0): #if single digit
+    def multiple_left_right(score):
+        if (score // 10 == 0):
             return score * score
         left = score
         right = score % 10
@@ -95,9 +92,8 @@ def is_swap(player_score, opponent_score):
             left = left // 10
         return left * right
 
-    player_multiple = multipleLeftRight(player_score)
-    opponent_multiple = multipleLeftRight(opponent_score)
-    #print(player_multiple, opponent_multiple)
+    player_multiple = multiple_left_right(player_score)
+    opponent_multiple = multiple_left_right(opponent_score)
     return player_multiple == opponent_multiple
     # END PROBLEM 4
 
@@ -139,43 +135,34 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     player = 0  # Which player is about to take a turn, 0 (first) or 1 (second)
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
-    lastRoll0 = 0
-    lastRoll1 = 0
-    while score0 < goal and score1 < goal:
-
+    last_roll0 = 0
+    last_roll1 = 0
+    while goal == max(score0, score1, goal):
         if player == 0:
-            otherScore = score1
-            numNewRolls = strategy0(score0, otherScore)
-
-            score0 += take_turn(numNewRolls, otherScore, dice)
-            #print("add score", score0)
-            if lastRoll0 == numNewRolls + 2 or lastRoll0 == numNewRolls - 2:
+            other_score = score1
+            num_new_rolls = strategy0(score0, other_score)
+            score0 += take_turn(num_new_rolls, other_score, dice)
+            if last_roll0 == num_new_rolls + 2 or last_roll0 == num_new_rolls - 2:
                 score0 += 3
-            if is_swap(score0, otherScore):
+            if is_swap(score0, other_score):
                 score0, score1 = score1, score0
-
-            lastRoll0 = numNewRolls
+            last_roll0 = num_new_rolls
 
         else: #set strategy and score based on player
-            otherScore = score0
-            numNewRolls = strategy1(score1, otherScore)
-
-            score1 += take_turn(numNewRolls, otherScore, dice)
-            if lastRoll1 == numNewRolls + 2 or lastRoll1 == numNewRolls - 2:
+            other_score = score0
+            num_new_rolls = strategy1(score1, other_score)
+            score1 += take_turn(num_new_rolls, other_score, dice)
+            if last_roll1 == num_new_rolls + 2 or last_roll1 == num_new_rolls - 2:
                 score1 += 3
-            if is_swap(score1, otherScore):
+            if is_swap(score1, other_score):
                 score0, score1 = score1, score0
-            lastRoll1 = numNewRolls
-
-        #switch players after turn
+            last_roll1 = num_new_rolls
         player = other(player)
     # END PROBLEM 5
     # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
     # BEGIN PROBLEM 6
-        "*** YOUR CODE HERE ***" #within while loop still
+        "*** YOUR CODE HERE ***"
         say = say(score0, score1)
-
-
     # END PROBLEM 6
     return score0, score1
 
@@ -262,21 +249,6 @@ def announce_highest(who, previous_high=0, previous_score=0):
     assert who == 0 or who == 1, 'The who argument should indicate a player.'
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
-    # def potentialNewHigh(score):
-    #     newHigh = score - previous_score
-    #     return newHigh
-    #
-    # def say(score0, score1):
-    #     score = score0
-    #     if who == 1:
-    #         score = score1
-    #
-    #     if potentialNewHigh(score) > previous_high:
-    #         newHigh = score - previous_score
-    #         print(newHigh, "point(s)! That's the biggest gain yet for Player", who)
-    #     #previous_score = score
-    #     return say
-    # return say
     def checkForHigh(score):
         newHigh = score - previous_score
         oldHigh = previous_high
@@ -289,13 +261,9 @@ def announce_highest(who, previous_high=0, previous_score=0):
         score = score0
         if who == 1:
             score = score1
-
         oldHigh = checkForHigh(score)
         return announce_highest(who, oldHigh, score)
-
     return say
-
-
     # END PROBLEM 7
 
 
@@ -341,7 +309,6 @@ def make_averaged(fn, num_samples=1000):
         while i < num_samples:
             sum += fn(*args)
             i += 1
-
         return sum / num_samples
 
     return func
@@ -360,16 +327,16 @@ def max_scoring_num_rolls(dice=six_sided, num_samples=1000):
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
     i = 1
-    maxScore = 0
-    numDice = 1
+    max_score = 0
+    num_dice = 1
+    score = make_averaged(roll_dice, num_samples)
     while i <= 10:
-        score = make_averaged(roll_dice, num_samples)(i, dice)
-        if score > maxScore:
-            numDice = i
-            maxScore = score
+        if score(i, dice) > max_score:
+            num_dice = i
+            max_score = score
         i += 1
 
-    return numDice
+    return num_dice
     # END PROBLEM 9
 
 
@@ -434,10 +401,6 @@ def swap_strategy(score, opponent_score, margin=8, num_rolls=4):
     zero_score = free_bacon(opponent_score) + score
     is_beneficial_swap = is_swap(zero_score, opponent_score) and opponent_score > zero_score
     is_otherwise_swap = is_swap(zero_score, opponent_score) and (opponent_score < zero_score)
-    # print("newscore", zero_score)
-    # print("is otherwise?", is_otherwise_swap)
-    # print("is beneficial?", is_beneficial_swap)
-
 
     if is_beneficial_swap:
         return 0

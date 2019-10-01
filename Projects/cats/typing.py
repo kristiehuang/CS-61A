@@ -215,10 +215,12 @@ def fastest_words(word_times, margin=1e-5):
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
     time_arr = [range(n_players)]
+    fastest_words = []
     for player_wordtimes in word_times:
-        last_timestamp = 0
+        last_timestamp, new_time = 0, 0
+        new_time = last_timestamp - elapsed_time(player_wordtimes)
         for timestamp in player_wordtimes:
-
+            new_time = last_timestamp - timestamp
     # END PROBLEM 9
 
 

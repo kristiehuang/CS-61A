@@ -214,6 +214,11 @@ def fastest_words(word_times, margin=1e-5):
     assert margin > 0
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    time_arr = [range(n_players)]
+    for player_wordtimes in word_times:
+        last_timestamp = 0
+        for timestamp in player_wordtimes:
+
     # END PROBLEM 9
 
 

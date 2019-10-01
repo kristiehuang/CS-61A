@@ -139,7 +139,6 @@ def acorn_finder(t):
     True
     """
     "*** YOUR CODE HERE ***"
-
     if 'acorn' == label(t):
         return True
     else:
@@ -187,6 +186,20 @@ def sprout_leaves(t, vals):
           2
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        return tree(label(t), [tree(v) for v in vals])
+    elif is_tree(t):
+        new_branches = []
+        for b in branches(t):
+            #rint("hi", b)
+            if is_leaf(b):
+                new_b = tree(label(b), [tree(v) for v in vals])
+            else:
+                new_b = sprout_leaves(b, vals)
+            new_branches.append(new_b)
+        return tree(label(t), new_branches)
+
+
 
 def add_chars(w1, w2):
     """

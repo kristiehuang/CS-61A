@@ -81,6 +81,15 @@ def accuracy(typed, reference):
     reference_words = split(reference)
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
+    i = 0
+    correct = 0
+    if len(typed_words) == 0:
+        return 0.0
+    while i < len(reference_words) and i < len(typed_words): #index out of bound
+        if typed_words[i] == reference_words[i]:
+            correct += 1
+        i +=1
+    return correct*100 / len(typed_words)
     # END PROBLEM 3
 
 
@@ -89,6 +98,9 @@ def wpm(typed, elapsed):
     assert elapsed > 0, 'Elapsed time must be positive'
     # BEGIN PROBLEM 4
     "*** YOUR CODE HERE ***"
+    if typed == '':
+        return 0.0
+    return len(typed) * (60/elapsed) / 5
     # END PROBLEM 4
 
 
@@ -99,6 +111,18 @@ def autocorrect(user_word, valid_words, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
+    lowest_diff, lowest_word = len(user_word), user_word
+    for n in valid_words:
+        if user_word == n:
+            return n
+        diff = diff_function(user_word, n, limit)
+        if diff < lowest_diff:
+            lowest_diff = diff
+            lowest_word = n
+    if lowest_diff > limit:
+        return user_word
+    else:
+        return lowest_word
     # END PROBLEM 5
 
 
@@ -108,7 +132,17 @@ def swap_diff(start, goal, limit):
     their lengths.
     """
     # BEGIN PROBLEM 6
-    assert False, 'Remove this line'
+    #assert False, 'Remove this line'
+    def swap_helper(index, letters_left):
+        if index < len(start) and index < len(goal) and letters_left >= 0: #index in bounds
+            if start[index] != goal[index]:
+                return 1 + swap_helper(index+1, letters_left-1)
+            else:
+                return swap_helper(index+1, letters_left)
+        else: #IF NEXT INDEX WILL BE OUT OF BOUNDS
+            return abs(len(start) - len(goal))
+
+    return swap_helper(0, limit)
     # END PROBLEM 6
 
 def edit_diff(start, goal, limit):

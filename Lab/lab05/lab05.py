@@ -145,10 +145,10 @@ def acorn_finder(t):
         if is_leaf(t):
             return False
         elif is_tree(t):
-            bool = False
+            bool_acorn = False
             for branch in branches(t):
-                bool = bool or acorn_finder(branch)
-            return bool
+                bool_acorn = bool_acorn or acorn_finder(branch)
+            return bool_acorn
         else:
             return False
 

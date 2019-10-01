@@ -137,7 +137,7 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     "*** YOUR CODE HERE ***"
     last_roll0 = 0
     last_roll1 = 0
-    while goal == max(score0, score1, goal):
+    while goal == max(score0+1, score1+1, goal):
         if player == 0:
             other_score = score1
             num_new_rolls = strategy0(score0, other_score)
@@ -329,9 +329,10 @@ def max_scoring_num_rolls(dice=six_sided, num_samples=1000):
     i = 1
     max_score = 0
     num_dice = 1
-    score = make_averaged(roll_dice, num_samples)
+    avg = make_averaged(roll_dice, num_samples)
     while i <= 10:
-        if score(i, dice) > max_score:
+        score = avg(i, dice)
+        if score > max_score:
             num_dice = i
             max_score = score
         i += 1

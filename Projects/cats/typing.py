@@ -214,13 +214,16 @@ def fastest_words(word_times, margin=1e-5):
     assert margin > 0
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
-    time_arr = [range(n_players)]
-    fastest_words = []
-    for player_wordtimes in word_times:
-        last_timestamp, new_time = 0, 0
-        new_time = last_timestamp - elapsed_time(player_wordtimes)
-        for timestamp in player_wordtimes:
-            new_time = last_timestamp - timestamp
+    def time_spent_typing_word(i, player):
+        return elapsed_time(word_times[player][i]) - elapsed_time(word_times[player][i-1])
+    def fastest_time_for_word(i):
+        time_arr = [time_spent_typing_word(i, player) for player in range(n_players)]
+        return min(time_arr)
+    def is_fastest(i, player):
+        return abs(time_spent_typing_word(i, player) - fastest_time_for_word(i)) <= margin
+
+    words = [word(i) for i in word_times[0]]
+    return [[words[i] for i in range(1, n_words+1) if is_fastest(i, p)] for p in range(n_players)]
     # END PROBLEM 9
 
 

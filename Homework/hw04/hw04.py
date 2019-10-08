@@ -225,6 +225,23 @@ def make_fib():
     True
     """
     "*** YOUR CODE HERE ***"
+    #0 1 1 2 3 5 8 13
+    def fib():
+        nonlocal x1
+        nonlocal x2
+        temp = x1
+        if x1 == 0:
+            x1, x2 = 1, 1
+        else:
+            t1 = x1
+            x1 = x2
+            x2 += t1
+
+        return temp
+
+
+    x1, x2 = 0, 0
+    return fib
 
 def make_withdraw(balance, password):
     """Return a password-protected withdraw function.
@@ -255,6 +272,21 @@ def make_withdraw(balance, password):
     True
     """
     "*** YOUR CODE HERE ***"
+    def withdraw(amount, trial):
+        nonlocal balance
+        nonlocal attempts
+        if len(attempts) == 3:
+            return "Your account is locked. Attempts: " + str(attempts)
+        if trial != password:
+            attempts.append(trial)
+            return 'Incorrect password'
+        if amount > balance:
+           return 'Insufficient funds'
+        balance = balance - amount
+        return balance
+
+    attempts = []
+    return withdraw
 
 def make_joint(withdraw, old_password, new_password):
     """Return a password-protected withdraw function that has joint access to
@@ -295,6 +327,17 @@ def make_joint(withdraw, old_password, new_password):
     "Your account is locked. Attempts: ['my', 'secret', 'password']"
     """
     "*** YOUR CODE HERE ***"
+    def wd(amt, trial):
+        nonlocal attempts
+        if len(attempts) == 3:
+            return "Your account is locked. Attempts: " + str(attempts)
+        if trial != new_password or type(withdraw(amt, trial)) == str:
+            attempts.append(trial)
+            return 'Incorrect password'
+        withdraw(amt, trial)
+
+    attempts = []
+    return wd
 
 
 

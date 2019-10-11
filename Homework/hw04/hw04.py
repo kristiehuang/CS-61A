@@ -328,16 +328,14 @@ def make_joint(withdraw, old_password, new_password):
     """
     "*** YOUR CODE HERE ***"
     def wd(amt, trial):
-        nonlocal attempts
-        if len(attempts) == 3:
-            return "Your account is locked. Attempts: " + str(attempts)
-        if trial != new_password or type(withdraw(amt, trial)) == str:
-            attempts.append(trial)
-            return 'Incorrect password'
-        withdraw(amt, trial)
+        if trial != new_password:
+            result = withdraw(0, trial)
+            if type(result) == str:
+                return result
+        return withdraw(amt, old_password)
 
-    attempts = []
-    return wd
+    result = withdraw(0, old_password)
+    return result if type(result) == str else wd
 
 
 

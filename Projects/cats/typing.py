@@ -19,14 +19,6 @@ def choose(paragraphs, select, k):
     "*** YOUR CODE HERE ***"
     if len(paragraphs) < k + 1:
         return ''
-    # n, i == 0, 0
-    # while n <= k:
-    #     if select(paragraphs[n]):
-    #         n += 1
-    #     i += 1
-    # if n == k:
-    #     return paragraphs[i]
-
     n = -1
     for parag in paragraphs:
         if select(parag):

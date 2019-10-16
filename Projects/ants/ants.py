@@ -214,6 +214,9 @@ class ThrowerAnt(Ant):
     damage = 1
     food_cost = 3
     armor = 1
+
+    min_range = 0
+    max_range = float('inf')
     # ADD/OVERRIDE CLASS ATTRIBUTES HERE
 
     def nearest_bee(self, beehive):
@@ -224,9 +227,16 @@ class ThrowerAnt(Ant):
         """
         # BEGIN Problem 3 and 4
         here = self.place
-        while here.bees == [] and here.entrance != beehive:
-            here = here.entrance
-        return random_or_none(here.bees)
+        here_index = 0
+        while here != beehive:
+            bee1 = random_or_none(here.bees)
+            if bee1 and here_index >= self.min_range and here_index <= self.max_range:
+                return bee1
+            else:
+                here = here.entrance
+                here_index += 1
+        return bee1
+
         # END Problem 3 and 4
 
     def throw_at(self, target):
@@ -254,7 +264,9 @@ class ShortThrower(ThrowerAnt):
     name = 'Short'
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    food_cost = 2
+    max_range = 3
     # END Problem 4
 
 class LongThrower(ThrowerAnt):
@@ -263,7 +275,9 @@ class LongThrower(ThrowerAnt):
     name = 'Long'
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    food_cost = 2
+    min_range = 5
     # END Problem 4
 
 class FireAnt(Ant):

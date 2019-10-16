@@ -30,6 +30,10 @@ def scale(s, k):
     [2, 4, 6, 8, 10]
     """
     "*** YOUR CODE HERE ***"
+    yield from map(lambda x: x * k, s)
+
+    # for x in s:
+    #     yield k*x
 
 
 
@@ -45,6 +49,20 @@ def link_to_list(link):
     []
     """
     "*** YOUR CODE HERE ***"
+    def link_recur(link): #RECURSIVE
+        if link is Link.empty:
+            return list
+        else:
+            list.append(link.first)
+            return link_recur(link.rest)
+    list = []
+    return link_recur(link)
+    #ITERATIVE
+    # list = []
+    # while link is not Link.empty:
+    #     list.append(link.first)
+    #     link = link.rest
+    # return list
 
 # Trees
 
@@ -58,6 +76,13 @@ def cumulative_sum(t):
     Tree(16, [Tree(8, [Tree(5)]), Tree(7)])
     """
     "*** YOUR CODE HERE ***"
+    # if t.is_leaf:
+    #     return t.label
+    # else:
+    #     ad = 0
+    #     for branch in t.branches:
+    #         ad += cumulative_sum(branch)
+    #     t.label += ad
 
 def is_bst(t):
     """Returns True if the Tree t has the structure of a valid BST.

@@ -105,6 +105,7 @@ class Insect(object):
 
     is_ant = False
     damage = 0
+    is_watersafe = False
     # ADD CLASS ATTRIBUTES HERE
 
     def __init__(self, armor, place=None):
@@ -146,6 +147,7 @@ class Bee(Insect):
 
     name = 'Bee'
     damage = 1
+    is_watersafe = True
     # OVERRIDE CLASS ATTRIBUTES HERE
 
 
@@ -414,7 +416,7 @@ class BodyguardAnt(Ant):
     food_cost = 4
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 9
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 9
 
     def __init__(self, armor=2):
@@ -436,10 +438,7 @@ class BodyguardAnt(Ant):
     def action(self, colony):
         # BEGIN Problem 9
         "*** YOUR CODE HERE ***"
-        print("DEBUG:", self.contained_ant)
-
         if self.contained_ant is not None:
-            print("DEBUG:", "is not vs is")
             self.contained_ant.action(colony)
         # END Problem 9
 
@@ -448,14 +447,23 @@ class TankAnt(BodyguardAnt):
 
     name = 'Tank'
     damage = 1
+    food_cost = 6
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 10
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 10
 
     def action(self, colony):
         # BEGIN Problem 10
         "*** YOUR CODE HERE ***"
+        BodyguardAnt.action(self, colony)
+
+        bees_list = list(self.place.bees)
+        for copy_bee in bees_list:
+            for real_bee in self.place.bees:
+                if copy_bee == real_bee:
+                    real_bee.reduce_armor(self.damage)
+
         # END Problem 10
 
 class Water(Place):
@@ -466,10 +474,18 @@ class Water(Place):
         its armor to 0."""
         # BEGIN Problem 11
         "*** YOUR CODE HERE ***"
+        Place.add_insect(self, insect)
+        if not(insect.is_watersafe):
+            insect.reduce_armor(insect.armor)
         # END Problem 11
 
 # BEGIN Problem 12
 # The ScubaThrower class
+class ScubaThrower(ThrowerAnt):
+    name = 'Scuba'
+    implemented = True
+    food_cost = 6
+    is_watersafe = True
 # END Problem 12
 
 # BEGIN Problem 13

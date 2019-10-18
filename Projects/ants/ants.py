@@ -587,7 +587,7 @@ def make_slow(action, bee):
     "*** YOUR CODE HERE ***"
     def new_action(colony):
         if colony.time % 2 == 0:
-            action(colony) #idk if ant colony is right
+            action(colony)
     return new_action
     # END Problem EC
 
@@ -599,7 +599,6 @@ def make_scare(action, bee):
     # BEGIN Problem EC
     "*** YOUR CODE HERE ***"
     def new_action(colony):
-
         if bee.is_scared: #second time
             action(colony)
             bee.is_scared = False

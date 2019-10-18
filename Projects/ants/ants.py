@@ -153,6 +153,11 @@ class Bee(Insect):
     is_watersafe = True
     # OVERRIDE CLASS ATTRIBUTES HERE
 
+    def __init__(self, armor, place=None): #i wrote this unsure
+        super().__init__(armor, place)
+        self.fwd_direction = True
+        self.scared_already = False
+
 
     def sting(self, ant):
         """Attack an ANT, reducing its armor by 1."""
@@ -180,10 +185,12 @@ class Bee(Insect):
         # Extra credit: Special handling for bee direction
         # BEGIN EC
         "*** YOUR CODE HERE ***"
+        if not self.fwd_direction:
+            destination = self.place.entrance 
         # END EC
         if self.blocked():
             self.sting(self.place.ant)
-        elif self.armor > 0 and destination is not None:
+        elif self.armor > 0 and destination is not None: #what if destination is hive?
             self.move_to(destination)
 
 
@@ -322,8 +329,6 @@ class FireAnt(Ant):
         """
         # BEGIN Problem 5
         "*** YOUR CODE HERE ***"
-        implemented = True
-
         bees_list = list(self.place.bees)
         self.armor -= amount
 
@@ -501,7 +506,6 @@ class QueenAnt(ScubaThrower):  # You should change this line
     food_cost = 7
 
     queenant_exists = False
-    #imposter = False
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 13
     implemented = True   # Change to True to view in the GUI
@@ -582,6 +586,10 @@ def make_slow(action, bee):
     """
     # BEGIN Problem EC
     "*** YOUR CODE HERE ***"
+    def new_action(colony):
+        if colony.time % 2 == 0:
+            bee.action(colony) #idk if ant colony is right
+    return new_action
     # END Problem EC
 
 def make_scare(action, bee):
@@ -591,12 +599,29 @@ def make_scare(action, bee):
     """
     # BEGIN Problem EC
     "*** YOUR CODE HERE ***"
+    def new_action(self, colony):
+        self.fwd_direction = False
+        self.action(colony)
+        self.scared_already = True
+    if bee.scared_already == False:
+        return new_action
     # END Problem EC
 
 def apply_effect(effect, bee, duration):
     """Apply a status effect to a BEE that lasts for DURATION turns."""
     # BEGIN Problem EC
     "*** YOUR CODE HERE ***"
+    old_action = bee.action
+    new_action = effect(bee.action, bee)
+
+    def action(self, colony):
+        nonlocal duration
+        if duration > 0:
+            duration -= 1
+            return new_action
+        else:
+            return old_action
+    bee.action = action
     # END Problem EC
 
 
@@ -605,7 +630,8 @@ class SlowThrower(ThrowerAnt):
 
     name = 'Slow'
     # BEGIN Problem EC
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    food_cost = 4
     # END Problem EC
 
     def throw_at(self, target):
@@ -618,12 +644,17 @@ class ScaryThrower(ThrowerAnt):
 
     name = 'Scary'
     # BEGIN Problem EC
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    food_cost = 6
     # END Problem EC
 
     def throw_at(self, target):
         # BEGIN Problem EC
         "*** YOUR CODE HERE ***"
+        if target:
+            if target.scared_before == False:
+                apply_effect(make_scare, target, 2)
+                target.scared_before = True
         # END Problem EC
 
 class LaserAnt(ThrowerAnt):

@@ -155,7 +155,7 @@ class Bee(Insect):
 
     def __init__(self, armor, place=None): #i wrote this unsure
         super().__init__(armor, place)
-        self.fwd_direction = True
+        self.is_scared = False
         self.scared_already = False
 
 
@@ -185,12 +185,15 @@ class Bee(Insect):
         # Extra credit: Special handling for bee direction
         # BEGIN EC
         "*** YOUR CODE HERE ***"
-        if not self.fwd_direction:
-            destination = self.place.entrance 
+        if self.is_scared:
+            if destination == Hive:
+                destination = self.place 
+            else:
+                destination = self.place.entrance
         # END EC
         if self.blocked():
             self.sting(self.place.ant)
-        elif self.armor > 0 and destination is not None: #what if destination is hive?
+        elif self.armor > 0 and destination is not None:
             self.move_to(destination)
 
 
@@ -514,8 +517,6 @@ class QueenAnt(ScubaThrower):  # You should change this line
     def __init__(self, armor=1):
         # BEGIN Problem 13
         "*** YOUR CODE HERE ***"
-        print("DEBUG:", "damage", self.damage)
-
         self.armor = armor
         self.imposter = False
         if QueenAnt.queenant_exists == True:
@@ -536,8 +537,7 @@ class QueenAnt(ScubaThrower):  # You should change this line
 
             Insect.reduce_armor(self, self.armor)
         else:
-            print("DEBUG:", self.damage)
-            ScubaThrower.action(self, colony) #throw leaf
+            ScubaThrower.action(self, colony)
 
             here = self.place.exit
             while here.exit:
@@ -561,7 +561,6 @@ class QueenAnt(ScubaThrower):  # You should change this line
         "*** YOUR CODE HERE ***"
         self.armor -= amount
         if self.armor <= 0 and not(self.imposter): #IF TRUE QUEEN ANT
-            print("DEBUG:", "Sdfs")
             bees_win()
         # END Problem 13
 
@@ -588,7 +587,7 @@ def make_slow(action, bee):
     "*** YOUR CODE HERE ***"
     def new_action(colony):
         if colony.time % 2 == 0:
-            bee.action(colony) #idk if ant colony is right
+            action(colony) #idk if ant colony is right
     return new_action
     # END Problem EC
 
@@ -599,12 +598,20 @@ def make_scare(action, bee):
     """
     # BEGIN Problem EC
     "*** YOUR CODE HERE ***"
-    def new_action(self, colony):
-        self.fwd_direction = False
-        self.action(colony)
-        self.scared_already = True
-    if bee.scared_already == False:
-        return new_action
+    def new_action(colony):
+
+        if bee.is_scared: #second time
+            action(colony)
+            bee.is_scared = False
+            bee.scared_already = True
+        elif bee.scared_already == False: #first time
+            bee.is_scared = True
+            action(colony)
+        else:
+            action(colony)
+
+
+    return new_action
     # END Problem EC
 
 def apply_effect(effect, bee, duration):
@@ -614,13 +621,13 @@ def apply_effect(effect, bee, duration):
     old_action = bee.action
     new_action = effect(bee.action, bee)
 
-    def action(self, colony):
+    def action(colony):
         nonlocal duration
         if duration > 0:
+            new_action(colony)
             duration -= 1
-            return new_action
         else:
-            return old_action
+            old_action(colony)
     bee.action = action
     # END Problem EC
 
@@ -652,9 +659,7 @@ class ScaryThrower(ThrowerAnt):
         # BEGIN Problem EC
         "*** YOUR CODE HERE ***"
         if target:
-            if target.scared_before == False:
-                apply_effect(make_scare, target, 2)
-                target.scared_before = True
+            apply_effect(make_scare, target, 2)
         # END Problem EC
 
 class LaserAnt(ThrowerAnt):

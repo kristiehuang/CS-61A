@@ -76,13 +76,11 @@ def cumulative_sum(t):
     Tree(16, [Tree(8, [Tree(5)]), Tree(7)])
     """
     "*** YOUR CODE HERE ***"
-    # if t.is_leaf:
-    #     return t.label
-    # else:
-    #     ad = 0
-    #     for branch in t.branches:
-    #         ad += cumulative_sum(branch)
-    #     t.label += ad
+    for branch in t.branches:
+        if not branch.is_leaf():
+            cumulative_sum(branch)
+        t.label += branch.label
+
 
 def is_bst(t):
     """Returns True if the Tree t has the structure of a valid BST.
@@ -110,6 +108,37 @@ def is_bst(t):
     False
     """
     "*** YOUR CODE HERE ***"
+    def left(t):
+        if len(t.branches) == 0:
+            return t
+        else:
+            return t.branches[0]
+    def right(t):
+        if len(t.branches) == 0:
+            return t
+        if len(t.branches) == 1:
+            return left(t)
+        else:
+            return t.branches[1]
+            
+
+    if t.is_leaf():
+        return True
+    elif len(t.branches) > 2: 
+        return False
+    else:
+        branches_are_bst = True
+        for branch in t.branches:
+            left_and_right = False
+            if len(branch.branches) == 1:
+                left_and_right = True
+            else:
+                left_and_right = (left(branch).label <= branch.label < right(branch).label)
+                branches_are_bst = branches_are_bst and left_and_right and is_bst(left(branch)) and is_bst(right(branch))
+        return branches_are_bst
+
+
+
 
 # Link List Class
 class Link:

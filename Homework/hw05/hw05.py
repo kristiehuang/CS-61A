@@ -169,13 +169,14 @@ def generate_paths(t, x):
     >>> sorted(list(path_to_2))
     [[0, 2], [0, 2, 1, 2]]
     """
+    lst = []
+    lst.append(t.label)
+    if t.label == x:
+        yield lst
 
-    "*** YOUR CODE HERE ***"
-
-    for _______________ in _________________:
-        for _______________ in _________________:
-
-            "*** YOUR CODE HERE ***"
+    for branch in t.branches:
+        for s in generate_paths(branch, x):
+            yield lst + s
 
 
 def remove_all(link , value):

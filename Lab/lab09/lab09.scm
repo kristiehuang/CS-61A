@@ -46,11 +46,15 @@
 ;; Extra questions
 
 (define lst
-  'YOUR-CODE-HERE
+  ;(list (list 1) 2 (list 3 4) 5)
+  (cons (cons 1 '()) (cons 2 (cons (cons 3 (cons 4 '())) (cons 5 '()))))
 )
 
 (define (composed f g)
-  'YOUR-CODE-HERE
+  (define (ahh x)
+    (f (g x))
+  )
+  ahh
 )
 
 (define (remove item lst)

@@ -77,7 +77,7 @@ def accuracy(typed, reference):
     correct = 0
     if len(typed_words) == 0:
         return 0.0
-    while i < len(reference_words) and i < len(typed_words): #index out of bound
+    while i < min(len(reference_words), len(typed_words)):
         if typed_words[i] == reference_words[i]:
             correct += 1
         i +=1
@@ -104,13 +104,13 @@ def autocorrect(user_word, valid_words, diff_function, limit):
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
     lowest_diff, lowest_word = len(user_word), user_word
-    for n in valid_words:
-        if user_word == n:
-            return n
-        diff = diff_function(user_word, n, limit)
+    for word in valid_words:
+        if user_word == word:
+            return word
+        diff = diff_function(user_word, word, limit)
         if diff < lowest_diff:
             lowest_diff = diff
-            lowest_word = n
+            lowest_word = word
     if lowest_diff > limit:
         return user_word
     else:

@@ -8,23 +8,39 @@
   (cdr (cdr s)))
 
 (define (cadr s)
-  'YOUR-CODE-HERE
+  (car (cdr s))
 )
 
 (define (caddr s)
-  'YOUR-CODE-HERE
+  (car (cddr s))
 )
 
 (define (sign x)
-  'YOUR-CODE-HERE
+  (cond 
+    ((> x 0) 1)
+    ((< x 0) -1)
+    (else 0)
+  )
 )
 
 (define (square x) (* x x))
 
 (define (pow b n)
-  'YOUR-CODE-HERE
+  (cond 
+    ((= n 0) 1)
+    ((= n 1) b)
+    ((= n 2) (square b))
+    ((even? n) (* (square b) (pow b (quotient n 2))))
+    ((odd? n) (* b (pow b (- n 1))))
+  )
 )
 
 (define (unique s)
-  'YOUR-CODE-HERE
+  (if 
+    (<= (length s) 1)
+    s
+    (cons (car s) 
+                (unique (filter (lambda (m) (not (eq? m (car s)))) (cdr s)   ) )
+    )
+  )
 )

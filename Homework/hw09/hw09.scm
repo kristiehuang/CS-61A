@@ -41,22 +41,25 @@
   )
 )
 
-
-(define (filter-stream f s)
-  (if (null? s))
-  )
-
 (define (nondecreastream s)
-    (define rest-stream asdlfa)
-    (cons-stream (filter (lambda (x) (x > (car (cdr-stream s)))) s) 
-              (nondecreastream rest-stream)
+    (define (inner-list ss)
+      (cond ((null? (cdr-stream ss)) (list (car s))) 
+            ((> (car ss) (car (cdr-stream ss))) (cons (car ss) nil))
+            (else (cons (car ss) (inner-list (cdr-stream ss))))
+      )
     )
-    ; if (car (cdr-stream s)) < (car s)  IF NEXT NUMBER SMALLER THAN CURRENT NUMBER
-    ;   START NEW LIST
-
-    ; (filter (lambda (x) (x > (car (cdr-stream s)))) s)
+    (define (rest-stream len ss)
+      (if (<= len 0) ss
+          (cdr-stream (rest-stream (- len 1) ss))
+      )
+    )
+    (if (null? s) s
+      (begin     
+          (define inner (inner-list s))
+          (cons-stream inner (nondecreastream (rest-stream (length inner) s)))
+      )
+    )
 )
-
 
 (define finite-test-stream
     (cons-stream 1

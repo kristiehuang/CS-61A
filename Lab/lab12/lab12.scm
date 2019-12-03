@@ -1,0 +1,37 @@
+
+; (define (partial-sums stream)
+;   (define (helper num str)
+;     (if (not (null? (cdr-stream str))) ;if rest of stream exists
+;       (if (eq? num 0)
+;         (cons-stream (car str) (helper (+ 1 num) (cdr-stream str)))
+;         (cons-stream (+ (car (helper (- num 1) str)) (car str)) (helper (+ 1 num) (cdr-stream str)))
+;       )
+;       (car str)
+;     )
+;   )
+;   (helper 0 stream)
+; )
+; (define (partial-sums stream)
+;   (define (helper num str)
+;     (if (not (null? (cdr-stream str))) ;if rest of stream exists
+;       (if (eq? num 0)
+;         (cons-stream (car str) (helper (+ 1 num) str))
+;         (cons-stream (+ (car (helper (- num 1) str)) (car (cdr-stream str))) (helper (+ 1 num) str))
+;       )
+;       (car str)
+;     )
+;   )
+;   (helper 0 stream)
+; )
+
+(define (partial-sums stream)
+  (define (helper sum str)
+      (if (null? (cdr-stream str)) 
+            (cons-stream (+ sum (car str)) nil)
+            (cons-stream (+ sum (car str)) (helper (+ sum (car str)) (cdr-stream str)))
+      )
+  )
+  (helper 0 stream)
+)
+
+
